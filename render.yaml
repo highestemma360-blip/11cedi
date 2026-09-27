@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: cedigain
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeploy: true
+    disk:
+      name: cedigain-persistent-data
+      mountPath: /var/data
+      sizeGB: 2
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_PHONE
+        value: "0200000000"
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: "https://cedigain.onrender.com"
+      - key: DATABASE_URL
+        value: "sqlite:////var/data/cedigain.db"
+      - key: UPLOAD_DIR
+        value: "/var/data/uploads"
+      - key: PERSIST_ROOT
+        value: "/var/data"
